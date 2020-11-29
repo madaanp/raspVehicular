@@ -2,7 +2,8 @@
 # Publish two messages, to two different topics
 
 import paho.mqtt.publish as publish
-
-publish.single("CoreElectronics/test", "Hello", hostname="test.mosquitto.org")
-publish.single("CoreElectronics/topic", "World!", hostname="test.mosquitto.org")
-print("Done")
+ 
+MQTT_SERVER = "192.168.1.5"
+MQTT_PATH = "test_channel"
+ 
+publish.single(MQTT_PATH, "Hello World!", hostname=MQTT_SERVER)
