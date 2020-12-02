@@ -8,4 +8,4 @@ sock.bind(UDP_IP, UDP_PORT)
 
 while True:
     msg, addr= sock.recvfrom(1024)
-    print msg
+    print (msg)
