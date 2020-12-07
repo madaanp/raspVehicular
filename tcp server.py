@@ -1,16 +1,41 @@
 #!/usr/bin/env python
 import socket
-TCP_IP = '10.35.70.3'
-TCP_PORT = 33001
-BUFFER_SIZE = 20  # Normally 1024, but we want fast response
+
+HOST = '10.35.70.3' # Server IP or Hostname
+PORT = 33001 # Pick an open Port (1000+ recommended), must match the client sport
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT))
-s.listen(1)
-conn, addr = s.accept()
-print ('Connection address:', addr)
-while 1:
-    data = conn.recv(BUFFER_SIZE)
-    if not data: break
-    print ("received data:", data)
-    conn.send(data)  # echo
-conn.close()
+print 'Socket created'
+
+#managing error exception
+try:
+	s.bind((HOST, PORT))
+	except socket.error:
+	print 'Bind failed '
+
+	s.listen(5)
+	print 'Socket awaiting messages'
+	(conn, addr) = s.accept()
+	print 'Connected'
+
+# awaiting for message
+while True:
+	data = conn.recv(1024)
+	print 'I sent a message back in response to: ' + data
+	reply = ''
+
+	# process your message
+	if data == 'Hello':
+		reply = 'Hi, back!'
+		elif data == 'This is important':
+		reply = 'OK, I have done the important thing you have asked me!'
+
+	#and so on and on until...
+	elif data == 'quit':
+		conn.send('Terminating')
+		break
+	else:
+		reply = 'Unknown command'
+
+	# Sending reply
+	conn.send(reply)
+	conn.close() # Close connections
