@@ -17,7 +17,7 @@ def setupServer():
     return s
 
 def setupConnection():
-    s.listen(4) #Allow 4 connections at a time.
+    s.listen(1) #Allow 1 connections at a time.
     conn, address = s.accept()
     print("connected to: ", address[0] + ":" + str(address[1]))
     return conn
