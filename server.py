@@ -7,17 +7,18 @@ storedValue= "Hello"
 
 def setupServer():
     s= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print=("Socket created.")
+    print("Socket created.")
 
     try:
-        s.bind(host, port)
+        s.bind((host, port))
     except socket.error as msg:
         print(msg)
+    
     print("Socket bind complete.")
     return s
 
 def setupConnection():
-    s.listen(1) #Allow 1 connections at a time.
+    s.listen(1) #Allow n connections at a time.
     conn, address = s.accept()
     print("connected to: ", address[0] + ":" + str(address[1]))
     return conn
@@ -51,7 +52,6 @@ def dataTransfer(conn):
             break
         else:
             reply= 'Unknown command'
-
         #send reply back to client
         conn.sendall(str.encode(reply))
         print("data sent")
