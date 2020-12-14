@@ -21,7 +21,7 @@ accidentDataPostResponse = None
 def storeAccidentData(message):
     accidentDataFetched = []
     if "body" in message:
-        print("Accident message received",message)
+        print("Accident message received \n",message)
         output = message['body']
         print(output)
         for acccidentSignal in output:
@@ -87,7 +87,7 @@ def getToAccidentLocation(accidentDataFetched):
         print("Current Coordinates \n", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
     print("Ambulance at junction.. \n")
     print("Taking a turn to reach accident location.. \n")
-    print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords).m, "\n \n")
+    print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords[0]).m, "\n \n")
 
     while((geodesic(junction_coords,accident_coords).m) > 15):
         print("Distance to Accident location (metres): ",geodesic(junction_coords,accident_coords).m)
