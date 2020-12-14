@@ -84,16 +84,10 @@ def getToAccidentLocation(accidentDataFetched):
         print("Distance to Junction (metres): ",geodesic(vehicle_10_start_coords,junction_coords).m)
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0003092),6)
         vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] - 0.0004172),6)
-        print("Current Coordinates \n", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
-    print("Ambulance at junction.. \n")
+        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
+    print("\n Ambulance at junction.. \n")
     print("Taking a turn to reach accident location.. \n")
-    print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords[0]).m, "\n \n")
-
-    while((geodesic(junction_coords,accident_coords).m) > 15):
-        print("Distance to Accident location (metres): ",geodesic(junction_coords,accident_coords).m)
-        vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
-        vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0021096),6)
-        print("Current Coordinates \n", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
+    print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords[0]).m, "\n")
 
     while(vehicle_10_start_coords[0] <= accident_coords0 and vehicle_10_start_coords[1] <= accident_coords1):
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
