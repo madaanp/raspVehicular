@@ -73,10 +73,12 @@ def getToAccidentLocation(accidentDataFetched):
     accident_coords = []
     for accidentLoc in accidentDataFetched:
         vehicle_lane_change_coords.append([accidentLoc['accidentLongitude'], accidentLoc['accidentLatitude']])
-        accident_coords.append([float(accidentLoc['accidentLongitude']), float(accidentLoc['accidentLatitude']]))
+        accident_coords0= float(accidentLoc['accidentLongitude'])
+        accident_coords1= float(accidentLoc['accidentLatitude'])
+        accident_coords.append([accident_coords0,accident_coords1])
     print(vehicle_10_start_coords)
-    print(vehicle_10_stop_coords)
-    print("Junction loc - ", junction_coords)
+    print("Accidents at", accident_coords)
+    print("Junction location ", junction_coords)
     
     # [53.37735 -6.248182]
     while((geodesic(vehicle_10_start_coords,junction_coords).m) > 15):
