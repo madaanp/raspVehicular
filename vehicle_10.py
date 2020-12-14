@@ -76,11 +76,10 @@ def getToAccidentLocation(accidentDataFetched):
         accident_coords0= float(accidentLoc['accidentLongitude'])
         accident_coords1= float(accidentLoc['accidentLatitude'])
         accident_coords.append([accident_coords0,accident_coords1])
-    print(vehicle_10_start_coords)
+    print("Ambulance location", vehicle_10_start_coords)
     print("Accidents at", accident_coords)
     print("Junction location ", junction_coords)
     
-    # [53.37735 -6.248182]
     while((geodesic(vehicle_10_start_coords,junction_coords).m) > 15):
         print("Distance to Junction (metres): ",geodesic(vehicle_10_start_coords,junction_coords).m)
         # time.sleep(0.2)
@@ -90,8 +89,8 @@ def getToAccidentLocation(accidentDataFetched):
     print("Ambulance at junction..")
     print("Taking a turn to reach accident location..")
     
-    # 53.375805 -6.250267 
     while(vehicle_10_start_coords[0] <= accident_coords[0] and vehicle_10_start_coords[1] <= accident_coords[1]):
+        print("Distance to Accident location (metres): ",geodesic(junction_coords,accident_coords).m)
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
         vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0021096),6)
         print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
