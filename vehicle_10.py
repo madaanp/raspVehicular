@@ -48,6 +48,7 @@ class MySubscribeCallback(SubscribeCallback):
             continue_moving()
         else:
             print("From RSU-5 : ",message.message, "\n")
+            time.sleep(0.5)
             continue_moving(message.message)
 
 #RSU 5
@@ -79,6 +80,7 @@ def getToAccidentLocation(accidentDataFetched):
     print("Ambulance location", vehicle_10_start_coords, "\n")
     print("Accidents at", accident_coords, "\n")
     print("Junction location ", junction_coords, "\n")
+    time.sleep(0.5)
     
     while((geodesic(vehicle_10_start_coords,junction_coords).m) > 15):
         print("Distance to Junction (metres): ",geodesic(vehicle_10_start_coords,junction_coords).m)
@@ -87,6 +89,7 @@ def getToAccidentLocation(accidentDataFetched):
         print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
     print("\n Ambulance at junction.. \n")
     print("Taking a turn to reach accident location.. \n")
+    time.sleep(0.7)
     print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords[0]).m, "\n")
 
     while(vehicle_10_start_coords[0] <= accident_coords0 and vehicle_10_start_coords[1] <= accident_coords1):
