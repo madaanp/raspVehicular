@@ -53,7 +53,6 @@ class MySubscribeCallback(SubscribeCallback):
 #RSU 5
 RSU_coords = [53.377350, -6.248184]
 vehicle_10_start_coords = [53.378550, -6.247462]
-vehicle_10_stop_coords = [53.372867, -6.239719]
 junction_coords = [53.375804, -6.250268]
 
 def continue_moving(message):
@@ -74,26 +73,26 @@ def getToAccidentLocation(accidentDataFetched):
     accident_coords = []
     for accidentLoc in accidentDataFetched:
         vehicle_lane_change_coords.append([accidentLoc['accidentLongitude'], accidentLoc['accidentLatitude']])
-        accident_coords.append([accidentLoc['accidentLongitude'], accidentLoc['accidentLatitude']])
+        accident_coords.append([float(accidentLoc['accidentLongitude']), float(accidentLoc['accidentLatitude']]))
     print(vehicle_10_start_coords)
     print(vehicle_10_stop_coords)
     print("Junction loc - ", junction_coords)
     
-    # 53.37735 -6.248182
+    # [53.37735 -6.248182]
     while((geodesic(vehicle_10_start_coords,junction_coords).m) > 15):
         print("Distance to Junction (metres): ",geodesic(vehicle_10_start_coords,junction_coords).m)
         # time.sleep(0.2)
-        vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0000049),6)
-        vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0000464),6)
+        vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0003092),6)
+        vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] - 0.0004172),6)
         print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
-    print("Vehicle at junction..")
-    print("Changing lanes to avoid traffic congestion..")
+    print("Ambulance at junction..")
+    print("Taking a turn to reach accident location..")
     
-    # Change vehicle_10_stop_coords to accident coords - accident_coords
-    while(vehicle_10_start_coords[0] <= vehicle_10_stop_coords[0] and vehicle_10_start_coords[1] <= vehicle_10_stop_coords[1]):
-            vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] + 0.0005),6)
-            vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0005),6)
-            print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
+    # 53.375805 -6.250267 
+    while(vehicle_10_start_coords[0] <= accident_coords[0] and vehicle_10_start_coords[1] <= accident_coords[1]):
+        vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
+        vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0021096),6)
+        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
     print("Ambulance reached the accident location !")
 
 def moving_vehicle():
