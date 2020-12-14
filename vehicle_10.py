@@ -21,7 +21,7 @@ accidentDataPostResponse = None
 def storeAccidentData(message):
     accidentDataFetched = []
     if "body" in message:
-        print("hola",message)
+        print("Accident message received",message)
         output = message['body']
         print(output)
         for acccidentSignal in output:
@@ -47,7 +47,7 @@ class MySubscribeCallback(SubscribeCallback):
         if message.message == None:
             continue_moving()
         else:
-            print("From RSU-5 : ",message.message)
+            print("From RSU-5 : ",message.message, "\n")
             continue_moving(message.message)
 
 #RSU 5
@@ -62,12 +62,12 @@ def continue_moving(message):
     if(len(accidentDataFetched) > 0):
         getToAccidentLocation(accidentDataFetched)
     else:
-        print("No accidents detected ! ")
+        print("No accidents detected ! \n")
 
 def getToAccidentLocation(accidentDataFetched):
     pubnub.unsubscribe().channels("RSU-5").execute()
     accidentCount = len(accidentDataFetched)
-    print(accidentCount, "accidents detected ! ")
+    print(accidentCount, "accidents detected ! \n")
     vehicle_lane_change_coords = []
     arrayCounter = 0
     accident_coords = []
@@ -76,25 +76,30 @@ def getToAccidentLocation(accidentDataFetched):
         accident_coords0= float(accidentLoc['accidentLongitude'])
         accident_coords1= float(accidentLoc['accidentLatitude'])
         accident_coords.append([accident_coords0,accident_coords1])
-    print("Ambulance location", vehicle_10_start_coords)
-    print("Accidents at", accident_coords)
-    print("Junction location ", junction_coords)
+    print("Ambulance location", vehicle_10_start_coords, "\n")
+    print("Accidents at", accident_coords, "\n")
+    print("Junction location ", junction_coords, "\n")
     
     while((geodesic(vehicle_10_start_coords,junction_coords).m) > 15):
         print("Distance to Junction (metres): ",geodesic(vehicle_10_start_coords,junction_coords).m)
-        # time.sleep(0.2)
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0003092),6)
         vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] - 0.0004172),6)
-        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
-    print("Ambulance at junction..")
-    print("Taking a turn to reach accident location..")
-    
-    while(vehicle_10_start_coords[0] <= accident_coords[0] and vehicle_10_start_coords[1] <= accident_coords[1]):
+        print("Current Coordinates ", vehicle_10_start_coords[0],vehicle_10_start_coords[1], "\n")
+    print("Ambulance at junction.. \n")
+    print("Taking a turn to reach accident location.. \n")
+    print("Distance to Accident location (metres):", geodesic(junction_coords,accident_coords).m, "\n \n")
+
+    while((geodesic(junction_coords,accident_coords).m) > 15):
         print("Distance to Accident location (metres): ",geodesic(junction_coords,accident_coords).m)
+        vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
+        vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] - 0.0021096),6)
+        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1], "\n")
+
+    while(vehicle_10_start_coords[0] <= accident_coords0 and vehicle_10_start_coords[1] <= accident_coords1):
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0029380),6)
         vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] + 0.0021096),6)
         print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
-    print("Ambulance reached the accident location !")
+    print("Ambulance reached the accident location ! \n")
 
 def moving_vehicle():
     while((geodesic(vehicle_10_start_coords,RSU_coords).m) > 15):
@@ -102,7 +107,7 @@ def moving_vehicle():
         time.sleep(0.5)
         vehicle_10_start_coords[0] = round((vehicle_10_start_coords[0] - 0.0002400),6)
         vehicle_10_start_coords[1] = round((vehicle_10_start_coords[1] - 0.0001444),6)
-        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1])
+        print("Current Coordinates", vehicle_10_start_coords[0],vehicle_10_start_coords[1], "\n")
     pubnub.add_listener(MySubscribeCallback())
     pubnub.subscribe().channels("RSU-5").execute()
 moving_vehicle()
